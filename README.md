@@ -14,6 +14,6 @@
 > runs on localhost:3000</br>
 
 #### Credit
-> I want to give credit to **Kent C. Dodds** </br>
+> Credit goes to **Kent C. Dodds** </br>
 > You can find more information about Epic-React here:</br> 
 > https://epicreact.dev/</br>
