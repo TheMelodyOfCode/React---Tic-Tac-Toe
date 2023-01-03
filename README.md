@@ -1,4 +1,4 @@
-# REACT - Tic tac Toe
+# REACT - Tic Tac Toe
 
 #### Fetching and Updating data 
 
