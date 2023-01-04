@@ -6,11 +6,11 @@
 
 #### Overview
 > the exercise in this project was about:</br>
-- build a tic tac toe game with useState</br>
-- managed and derived state</br>
-- setting and getting Data from localStorage</br>
-- flexible localStorage Hook</br>
-- game history feature</br>
+> - build a tic tac toe game with useState</br>
+> - managed and derived state</br>
+> - setting and getting Data from localStorage</br>
+> - flexible localStorage Hook</br>
+> - game history feature</br>
 
 ##### Managed State 
 > - State that you need to explicitly manage </br>
