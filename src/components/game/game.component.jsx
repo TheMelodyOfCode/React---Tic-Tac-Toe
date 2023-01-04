@@ -1,6 +1,84 @@
 import * as React from 'react'
+import { useLocalStorageState} from '../../utils/syncLocalStorage'
 
-// eslint-disable-next-line no-unused-vars
+import Board from '../board/board.component'
+
+const Game =()=>{
+
+// initial array/squares values
+const initialSquares = Array(9).fill(null)
+/** 
+ * here we use the custom hook useLocalStorageState to preserve the state in localStorage
+ * also we returned here the steps into managed state ... */
+const [currentStep, setCurrentStep] = useLocalStorageState('tic-tac-toe:step', 0)
+const [history, setHistory] = useLocalStorageState('tic-tac-toe:history', [initialSquares])
+
+const currentSquares = history[currentStep]
+
+/** ... and then we derived other values of state based on that squares state, 
+ * and even other derived values of state */
+  const nextValue = calculateNextValue(currentSquares)
+  const winner = calculateWinner(currentSquares)
+/** state value that's derived by state - all put together to get the status */
+  const status = calculateStatus(winner, currentSquares, nextValue)
+
+/** This function gets called by the click handler
+   * @param {String} square is an index
+   * a.e. the center square, will be `4`.*/
+function selectSquare(square) {
+/** if there's a winner; then we'll return. 
+ *  Also, if there's a value in the squares at that particular index, then we'll have that return as well. */
+    if (winner || currentSquares[square]) {
+        return
+    }
+    const newHistory = history.slice(0, currentStep + 1)
+/** To avoid MUTATION (for more info, see README.md)
+ *  Instead of updating the squares directly, here's a copy of the squares.*/
+    const squaresCopy = [...currentSquares]
+    squaresCopy[square] = nextValue // the value of whoveres turn it was
+
+    setHistory([...newHistory, squaresCopy])
+    setCurrentStep(newHistory.length)
+
+    }
+
+    function restart() {
+    setHistory([initialSquares])
+    setCurrentStep(0)
+    }
+
+    const moves = history.map((stepSquares, step) => {
+        const desc = step === 0 ? 'Go to game start' : `Go to move #${step}`
+        const isCurrentStep = step === currentStep
+        return( 
+        <li key={step} >
+        <button className="game__history--btn" disabled={isCurrentStep} onClick={() => setCurrentStep(step)} >
+          {desc} {isCurrentStep ? '(current)' : null}
+        </button> 
+        </li>)
+      })
+
+    return (
+        <section className="game">
+                <div className="game__status">{status}</div> 
+                <Board onClick={selectSquare} squares={currentSquares}/>
+                <button className="game__restart" onClick={restart}>
+                    restart
+                </button>
+            <div className="game__history--title">Game history</div>
+            <div className="game__history">
+                <ol className="game__history--orderedList">
+                    {moves}
+                </ol>
+            </div> 
+        </section>
+    )
+
+}
+
+export default Game
+
+
 function calculateStatus(winner, squares, nextValue) {
     return winner
       ? `Winner: ${winner}`
@@ -9,12 +87,11 @@ function calculateStatus(winner, squares, nextValue) {
       : `Next player: ${nextValue}`
   }
   
-  // eslint-disable-next-line no-unused-vars
   function calculateNextValue(squares) {
     return squares.filter(Boolean).length % 2 === 0 ? 'X' : 'O'
   }
   
-  // eslint-disable-next-line no-unused-vars
+
   function calculateWinner(squares) {
     const lines = [
       [0, 1, 2],
@@ -34,110 +111,3 @@ function calculateStatus(winner, squares, nextValue) {
     }
     return null
   }
-
-const Board =()=>{
-
-      // 🐨 squares is the state for this component. Add useState for squares
-  const squares = Array(9).fill(null)
-
-  // 🐨 We'll need the following bits of derived state:
-  // - nextValue ('X' or 'O')
-  // - winner ('X', 'O', or null)
-  // - status (`Winner: ${winner}`, `Scratch: Cat's game`, or `Next player: ${nextValue}`)
-  // 💰 I've written the calculations for you! So you can use my utilities
-  // below to create these variables
-
-  // This is the function your square click handler will call. `square` should
-  // be an index. So if they click the center square, this will be `4`.
-  function selectSquare(square) {
-    // 🐨 first, if there's already winner or there's already a value at the
-    // given square index (like someone clicked a square that's already been
-    // clicked), then return early so we don't make any state changes
-    //
-    // 🦉 It's typically a bad idea to mutate or directly change state in React.
-    // Doing so can lead to subtle bugs that can easily slip into production.
-    //
-    // 🐨 make a copy of the squares array
-    // 💰 `[...squares]` will do it!)
-    //
-    // 🐨 set the value of the square that was selected
-    // 💰 `squaresCopy[square] = nextValue`
-    //
-    // 🐨 set the squares to your copy
-  }
-
-  function restart() {
-    // 🐨 reset the squares
-    // 💰 `Array(9).fill(null)` will do it!
-  }
-
-  function renderSquare(i) {
-    return (
-      <button className="game__board--square" onClick={() => selectSquare(i)}>
-        {squares[i]}
-      </button>
-    )
-  }
-
-  return (
-    <div>
-      {/* 🐨 put the status in the div below */}
-    <div className="game__status">Next player X</div>
-    <div className="game__board"> 
-        <div className="game__board--rowsContainer">
-            <div className="game__board--row">
-                {renderSquare(0)}
-                {renderSquare(1)}
-                {renderSquare(2)}
-            </div>
-            <div className="game__board--row">
-                {renderSquare(3)}
-                {renderSquare(4)}
-                {renderSquare(5)}
-            </div>
-            <div className="game__board--row">
-                {renderSquare(6)}
-                {renderSquare(7)}
-                {renderSquare(8)}
-            </div>
-            <button className="game__restart" onClick={restart}>
-                restart
-            </button>
-        </div>
-    </div>
-    </div>
-  )
-
-}
-
-
-const Game =()=>{
-
-    return (
-
-        <section className="game">
-            <Board />
-
-        {/* <div className="game__history--title">Game history</div>
-        <div className="game__history">
-            <ol className="game__history--orderedList">
-                <li > <button className="game__history--btn" >Go to game start</button> </li>
-                <li > <button className="game__history--btn" >Go to move #1</button> </li>
-                <li > <button className="game__history--btn" >Go to move #2</button> </li>
-                <li > <button className="game__history--btn" >Go to move #3</button> </li>
-                <li > <button className="game__history--btn" >Go to move #4</button> </li>
-                <li > <button className="game__history--btn" >Go to move #5</button> </li>
-                <li > <button className="game__history--btn" >Go to move #6</button> </li>
-                <li > <button className="game__history--btn" >Go to move #7</button> </li>
-                <li > <button className="game__history--btn" >Go to move #8</button> </li>
-                <li > <button className="game__history--btn" >Go to move #9</button> </li>
-            </ol>
-        </div> */}
-    </section>
-
-    )
-
-
-}
-
-export default Game
