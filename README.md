@@ -16,10 +16,9 @@
 >> - State that you can calculate based on other state</br>
 
 > ##### State mutation
-State mutation in React is a problem.</br>
 You don't want to mutate the state that's being managed, since it can lead to unexpected bugs</br>
 React relies on the fact that anytime there is a state change, it triggers a rerender. </br>
-if you're mutating things, then you could have some stale closures that are refrencing the mutated values.</br>
+by mutating things, it could have some stale closures that are refrencing the mutated values.</br>
 
 #### React APP
 > Run the app from the main folder - npm start</br>
@@ -29,3 +28,4 @@ if you're mutating things, then you could have some stale closures that are refr
 > Credit goes to **Kent C. Dodds** </br>
 > You can find more information about Epic-React here:</br> 
 > https://epicreact.dev/</br>
+> This course is worth every single penny 
