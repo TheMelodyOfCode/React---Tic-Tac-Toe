@@ -16,9 +16,7 @@ html {
 It's important to set a % value here since the user can change the font-settings in the browser
 100% is equal to 16px . - 16px is the default browser font-size
 1rem = 16px*/
-
     font-size: 62.5%; /*  10px / 16px * 100  (16px = 1rem)  */  
-    
 }
 
 body {
@@ -27,9 +25,6 @@ body {
 
 .container {
     display: grid;
-    /* creating an 8 cullom layout with estimated 1140px / 8 = 142.5px which equlas ~14rem 
-        never over maximum 140px(14rem) and never below the min-content
-        28rem for the sidebar (until a certain breakpoint)*/
     grid-template-columns: [full-start] minmax(4rem, 1fr) [center-start]repeat(4, [col-start] minmax(min-content, 14rem)[col-end]) [center-end] minmax(4rem, 1fr) [full-end];
     grid-template-rows:  minmax(4rem, min-content)  repeat(2, minmax(max-content, max-content)) minmax(4rem, min-content);
 }

@@ -1,6 +1,5 @@
 
 const Header = ()=>{
-
     return (
         <header className="header">
             <div className="header__container">
@@ -11,5 +10,4 @@ const Header = ()=>{
     )
 
 }
-
 export default Header

@@ -1,9 +1,5 @@
 
-
-
 const Board =({onClick, squares})=>{
-
-
     /** 
       * @param {String} i is the index of the square
       * @returns the button/square with the index onClick */
@@ -16,7 +12,6 @@ const Board =({onClick, squares})=>{
     }
   
     return (
-  
       <div className="game__board"> 
           <div className="game__board--rowsContainer">
               <div className="game__board--row">
@@ -37,9 +32,7 @@ const Board =({onClick, squares})=>{
   
           </div>
       </div>
-  
     )
-  
   }
 
   export default Board;
