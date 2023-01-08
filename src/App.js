@@ -18,7 +18,7 @@ function ErrorFallback({error, resetErrorBoundary,}) {
 
 function App() {
   return (
-      <main class="container">
+      <main className="container">
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <Header />
           <Game />
